@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 # TODO:
-	# Insert random commas
+	# Insert random commas in sentences
 
 require 'getoptlong'
 
@@ -59,7 +59,7 @@ options:
 	-o, --out	output file name (default: \"ruberlapide.out\")
 	-w, --words	specifies the number of words to be generated
 	-l, --lines	specifies the number of lines to be generated
-	-p, --paragrahps	specifies the number of paragraphs to be generated
+	-p, --passage	specifies the number of passages to be generated
 	-v, --verbose	prints output to console
 	-V, --version	prints version information
 	    --help	prints this message (\'-h\' for short message)
@@ -74,10 +74,10 @@ $opts = GetoptLong.new(
 	["--out", "-o", GetoptLong::REQUIRED_ARGUMENT],
 	["--words", "-w", GetoptLong::REQUIRED_ARGUMENT],
 	["--lines", "-l", GetoptLong::REQUIRED_ARGUMENT],
-	["--paragraphs", "-p", GetoptLong::REQUIRED_ARGUMENT],
+	["--passages", "-p", GetoptLong::REQUIRED_ARGUMENT],
 )
 
-$words, $lines, $paragraphs = 0, 0, 0;
+$words, $lines, $passages = 0, 0, 0;
 
 $opts.each do |opt, arg|
 	case opt
@@ -88,10 +88,10 @@ $opts.each do |opt, arg|
 			puts "ruberlapide"
 			exit 1
 		when "--verbose"; $verbose = true
-		when "--out"; $out = arg
-		when "--words"; $words = arg
-		when "--lines"; $lines = arg
-		when "--paragraphs"; $paragraphs = arg
+		when "--out"; $out = arg.chomp.to_a
+		when "--words"; $words = arg.chomp.to_i
+		when "--lines"; $lines = arg.chomp.to_i
+		when "--passages"; $passages = arg.chomp.to_i
 	end
 end
 
@@ -101,26 +101,27 @@ $verba_copy = []
 # $generator = Random.new
 
 $WORDS_PER_SENTENCE_AVG = rand(0.0..10.0);
-$WORDS_PER_SENTENCE_STD = rand(10..30);
+$WORDS_PER_SENTENCE_STD = rand(10.0..30.0);
 
-if $words == 0 && $lines == 0 && $paragraphs == 0 then
-	puts "Please specify number of words, lines, or paragraphs to be generated.", $usage
+if $words <= 0 && $lines <= 0 && $passages <= 0 then
+	puts "Please specify number of words, lines, or passages to be generated.", $usage
 	exit 1
+else
+	$words = $VERBA.length if $words <= 0
+	$words.times do |_|
+		$verba_copy = $VERBA.dup if $verba_copy.empty?
+
+		print(
+			(_ >= 0 && _ <= 4 ? $verba_copy[_] : $verba_copy.shuffle!.pop).capitalize,
+			(_ != ($n - 1) ? ' ' : ".\n")
+		) if $verbose
+
+		# && _ % $WORDS_PER_SENTENCE_STD != 0 || _ == 0
+
+		# $out << (_ >= 0 && _ <= 4 ? $verba_copy[_] : $verba_copy.shuffle!.pop).capitalize
+		# $out << ".\n" if _ == ($n - 1)
+	end
+
+	# File.open(filename, "wb").write($out.join(" "))
+	puts "Done" unless $verbose
 end
-
-# $n = $words == 0 ? ARGV[0].chomp.to_i : $VERBA.length
-
-$n.times do |_|
-	$verba_copy = $VERBA.dup if $verba_copy.empty?
-
-	print(
-		(_ >= 0 && _ <= 4 ? $verba_copy[_] : $verba_copy.shuffle!.pop).capitalize,
-		(_ != ($n - 1) && _ % $WORDS_PER_SENTENCE_STD != 0 || _ == 0 ? ' ' : ".\n\n")
-	) if $verbose
-
-	# $out << (_ >= 0 && _ <= 4 ? $verba_copy[_] : $verba_copy.shuffle!.pop).capitalize
-	# $out << ".\n" if _ == ($n - 1)
-end
-
-# File.open(filename, "wb").write($out.join(" "))
-puts "Done" unless $verbose
