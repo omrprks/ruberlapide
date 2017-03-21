@@ -2,7 +2,7 @@
 Simple command-line program written in Ruby to generate Lorem Ipsum placeholder text.
 
 ### Usage
-"Usage: ruberlapide [OPTION] args  
+Usage: ruberlapide [OPTION] args  
 options:  
     -o, --out	output file name (default: \"ruberlapide.out\")  
     -w, --words	specifies the number of words to be generated  
