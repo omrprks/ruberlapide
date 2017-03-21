@@ -1,7 +1,10 @@
 #!/usr/bin/env ruby
 
 # TODO:
-	# Insert random commas in sentences
+	# Insert random commas in sentences.
+	# If number of words not specified, use length of dictionary.
+	# Breakpoints for sentences and passages.
+	# If number of sentences/passages not specified, randomize.
 
 Dir["#{File.dirname(__FILE__)}/../lib/*.rb"].each do |_|
 	require "#{File.dirname(_)}/#{File.basename(_, File.extname(_))}"
@@ -24,7 +27,7 @@ options:
 	    --help	prints this message (\'-h\' for short message)
 
 	example:
-		$ ruberlapide -o \"Test.txt\" -w 42"
+		$ ruberlapide -o \"RuberLapide.txt\" -w 42"
 
 $opts = GetoptLong.new(
 	["--help", GetoptLong::NO_ARGUMENT],
@@ -47,7 +50,7 @@ $opts.each do |opt, arg|
 			puts "ruberlapide"
 			exit 1
 		when "--verbose"; $verbose = true
-		when "--out"; $out = arg.chomp.to_a
+		when "--out"; $out = arg.chomp.to_s
 		when "--words"; $words = arg.chomp.to_i
 		when "--lines"; $lines = arg.chomp.to_i
 		when "--passages"; $passages = arg.chomp.to_i
@@ -55,7 +58,7 @@ $opts.each do |opt, arg|
 end
 
 # out = []
-$verba_copy = []
+$verba = []
 
 # $generator = Random.new
 
@@ -63,24 +66,24 @@ $verba_copy = []
 # $WORDS_PER_SENTENCE_STD = rand(10.0..30.0);
 
 if $words <= 0 && $lines <= 0 && $passages <= 0 then
-	puts "Please specify number of words, lines, or passages to be generated.", $usage
+	puts "Please specify number of words, lines, or passages to be generated.".red, $usage
 	exit 1
 else
 	$words = RuberLapide::verba.length if $words <= 0
 	$words.times do |_|
-		$verba_copy = RuberLapide::verba.dup if $verba_copy.empty?
+		$verba = RuberLapide::verba.dup if $verba.empty?
 
 		print(
-			(_ >= 0 && _ <= 4 ? $verba_copy[_] : $verba_copy.shuffle!.pop).capitalize,
+			(_ >= 0 && _ <= 4 ? $verba[_] : $verba.shuffle!.pop).capitalize,
 			(_ != ($words - 1) ? ' ' : ".\n")
 		) if $verbose
 
 		# && _ % $WORDS_PER_SENTENCE_STD != 0 || _ == 0
 
-		# $out << (_ >= 0 && _ <= 4 ? $verba_copy[_] : $verba_copy.shuffle!.pop).capitalize
+		# $out << (_ >= 0 && _ <= 4 ? $verba[_] : $verba.shuffle!.pop).capitalize
 		# $out << ".\n" if _ == ($n - 1)
 	end
 
 	# File.open(filename, "wb").write($out.join(" "))
-	puts "Done" unless $verbose
+	puts "Done: #{$out}".green unless $verbose
 end
