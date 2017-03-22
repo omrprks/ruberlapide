@@ -1,12 +1,12 @@
 class String
 	public
-	def red() colours(31) end
-	def green() colours(32) end
-	def yellow() colours(33) end
-	def blue() colours(34) end
-	def lightblue() colours(36) end
-	def pink() colours(35) end
+	def red() _(31) end
+	def green() _(32) end
+	def yellow() _(33) end
+	def blue() _(34) end
+	def lightblue() _(36) end
+	def pink() _(35) end
 
 	private
-	def colours(_) "\e[#{_}m#{self}\e[0m" end
+	def _(_) "\e[#{_}m#{self}\e[0m" end
 end
