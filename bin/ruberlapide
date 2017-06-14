@@ -12,13 +12,13 @@ end
 
 require 'getoptlong'
 
-$out = "ruberlapide.out"
+$out = "ruberlapide.txt"
 $verbose = false
 
 $usage =
 "Usage: ruberlapide [OPTION] args
 options:
-	-o, --out	output file name (default: \"ruberlapide.out\")
+	-o, --out	output file name (default: \"ruberlapide.txt\")
 	-w, --words	specifies the number of words to be generated
 	-l, --lines	specifies the number of lines to be generated
 	-p, --passage	specifies the number of passages to be generated
