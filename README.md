@@ -1,7 +1,7 @@
 # ruberlapide
-> Ruber Lapide - Simple command-line program written in Ruby to generate Lorem Ipsum placeholder text
+> Ruber Lapide - CLI tool to generate Lorem Ipsum placeholder text
 
-### Usage
+## Usage
 ```
 Usage: ruberlapide [OPTION] args
 options:
@@ -21,3 +21,6 @@ $ ruberlapide -o "RuberLapide.txt" -w 42
 ```
 Lorem Ipsum Dolor Sit Amet Eiusmod Tempor Nostra Ruber Molestie Morbi Cras Ante Placerat Turpis Sed Nec Exercitation Fermentum Tempus Potenti Hendrerit A Tellus Voluptate Arcu Pariatur Eros Consectetaur Vehicula Lacinia Reprehenderit Commodo Neque Et Nulla Felis Ex Purus Condimentum Ut Sociosqu.
 ```
+
+## License
+[MIT](./LICENSE)
